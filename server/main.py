@@ -57,7 +57,7 @@ def handle_client(conn, address):
         with state_lock:
             clients[conn] = client_id
 
-            # New clients receive the existing drawing.
+            # Send the current drawing to the new client.
             send_message(conn, {
                 "type": "SNAPSHOT",
                 "version": version,
@@ -69,6 +69,16 @@ def handle_client(conn, address):
         while True:
             message = recv_message(conn)
 
+            # Handle a request to synchronize drawing state.
+            if message.get("type") == "SYNC_REQUEST":
+                with state_lock:
+                    send_message(conn, {
+                        "type": "SNAPSHOT",
+                        "version": version,
+                        "operations": list(drawing_state),
+                    })
+                continue
+
             if message.get("type") != "DRAW":
                 send_message(conn, {
                     "type": "ERROR",
@@ -76,6 +86,7 @@ def handle_client(conn, address):
                 })
                 continue
 
+            # Validate the drawing operation.
             try:
                 x1 = float(message["x1"])
                 y1 = float(message["y1"])
@@ -93,8 +104,10 @@ def handle_client(conn, address):
                     not isinstance(color, str)
                     or len(color) != 7
                     or color[0] != "#"
-                    or any(c not in "0123456789abcdefABCDEF"
-                           for c in color[1:])
+                    or any(
+                        c not in "0123456789abcdefABCDEF"
+                        for c in color[1:]
+                    )
                 ):
                     raise ValueError("Invalid color")
 
