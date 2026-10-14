@@ -4,11 +4,13 @@ import threading
 import tkinter as tk
 import queue
 import uuid
+import time
+
 from common.protocol import send_message, recv_message
 
 HOST = "127.0.0.1"
 PORT = 8765
-CLIENT_ID = "client_A"
+CLIENT_ID = f"client_{uuid.uuid4().hex[:8]}"
 
 
 class SyncDrawClient:
@@ -24,6 +26,7 @@ class SyncDrawClient:
         self.messages = queue.Queue()
         self.running = True
         self.last_version = 0
+        self.sync_requested = False
 
         toolbar = tk.Frame(root)
         toolbar.pack(fill="x", padx=8, pady=8)
@@ -40,11 +43,24 @@ class SyncDrawClient:
                 command=lambda c=color: self.set_color(c),
             ).pack(side="left", padx=4)
 
-        self.status = tk.Label(toolbar, text="Connecting...", fg="orange")
+        self.status = tk.Label(
+            toolbar,
+            text="Connecting...",
+            fg="orange",
+        )
         self.status.pack(side="right", padx=8)
 
-        self.canvas = tk.Canvas(root, bg="white", cursor="cross")
-        self.canvas.pack(fill="both", expand=True, padx=8, pady=8)
+        self.canvas = tk.Canvas(
+            root,
+            bg="white",
+            cursor="cross",
+        )
+        self.canvas.pack(
+            fill="both",
+            expand=True,
+            padx=8,
+            pady=8,
+        )
 
         self.canvas.bind("<Button-1>", self.start_draw)
         self.canvas.bind("<B1-Motion>", self.draw)
@@ -60,7 +76,10 @@ class SyncDrawClient:
 
     def connect(self):
         try:
-            self.sock = socket.create_connection((HOST, PORT), timeout=5)
+            self.sock = socket.create_connection(
+                (HOST, PORT),
+                timeout=5,
+            )
             self.sock.settimeout(None)
 
             send_message(self.sock, {
@@ -72,7 +91,9 @@ class SyncDrawClient:
             response = recv_message(self.sock)
 
             if response.get("type") != "SNAPSHOT":
-                raise ConnectionError("Expected initial snapshot")
+                raise ConnectionError(
+                    "Expected initial snapshot"
+                )
 
             self.last_version = response["version"]
 
@@ -87,21 +108,76 @@ class SyncDrawClient:
             ).start()
 
         except (OSError, ConnectionError, ValueError) as exc:
-            self.status.config(text="Connection failed", fg="red")
+            self.status.config(
+                text="Connection failed",
+                fg="red",
+            )
             print("Connection error:", exc)
 
+
     def receive_loop(self):
-        while self.running and self.sock:
+        while self.running:
             try:
-                message = recv_message(self.sock)
-                self.messages.put(message)
+                # Receive messages while connected.
+                while self.running:
+                    message = recv_message(self.sock)
+                    self.messages.put(message)
+
             except (OSError, ConnectionError, ValueError) as exc:
-                if self.running:
-                    self.messages.put({
-                        "type": "CONNECTION_LOST",
-                        "message": str(exc),
-                    })
-                break
+                if not self.running:
+                    break
+
+                self.messages.put({
+                    "type": "CONNECTION_LOST",
+                    "message": str(exc),
+                })
+
+                try:
+                    self.sock.close()
+                except (OSError, AttributeError):
+                    pass
+
+                # Retry connection every 2 seconds.
+                while self.running:
+                    time.sleep(2)
+
+                    try:
+                        new_sock = socket.create_connection(
+                            (HOST, PORT),
+                            timeout=5,
+                        )
+
+                        send_message(new_sock, {
+                            "type": "HELLO",
+                            "client_id": CLIENT_ID,
+                            "last_version": self.last_version,
+                        })
+
+                        response = recv_message(new_sock)
+
+                        if response.get("type") != "SNAPSHOT":
+                            new_sock.close()
+                            continue
+
+                        new_sock.settimeout(None)
+                        self.sock = new_sock
+
+                        self.messages.put(response)
+                        self.messages.put({
+                            "type": "RECONNECTED",
+                        })
+
+                        break
+
+                    except (OSError, ConnectionError, ValueError):
+                        try:
+                            new_sock.close()
+                        except (OSError, UnboundLocalError):
+                            pass
+
+                if not self.running:
+                    break
+
 
     def process_messages(self):
         if not self.running:
@@ -121,12 +197,32 @@ class SyncDrawClient:
                 if incoming_version == self.last_version + 1:
                     self.render_operation(message)
                     self.last_version = incoming_version
+
                 elif incoming_version <= self.last_version:
                     # Ignore duplicate or stale updates.
                     continue
+
                 else:
-                    # We'll implement gap recovery next.
-                    self.status.config(text="Version gap detected", fg="orange")
+                    # Request a snapshot when a version gap occurs.
+                    self.status.config(
+                        text="Resynchronizing...",
+                        fg="orange",
+                    )
+
+                    if not self.sync_requested:
+                        try:
+                            with self.send_lock:
+                                send_message(self.sock, {
+                                    "type": "SYNC_REQUEST",
+                                })
+                            self.sync_requested = True
+
+                        except (OSError, ConnectionError, AttributeError) as exc:
+                            self.status.config(
+                                text="Disconnected",
+                                fg="red",
+                            )
+                            print("Sync request failed:", exc)
 
             elif msg_type == "SNAPSHOT":
                 self.canvas.delete("all")
@@ -135,13 +231,21 @@ class SyncDrawClient:
                     self.render_operation(operation)
 
                 self.last_version = message["version"]
+                self.sync_requested = False
+                self.status.config(text="Connected", fg="green")
 
             elif msg_type == "CONNECTION_LOST":
-                self.status.config(text="Disconnected", fg="red")
+                self.status.config(
+                    text="Disconnected",
+                    fg="red",
+                )
                 print(message["message"])
 
             elif msg_type == "ERROR":
-                print("Server error:", message.get("message"))
+                print(
+                    "Server error:",
+                    message.get("message"),
+                )
 
         self.root.after(50, self.process_messages)
 
@@ -163,20 +267,14 @@ class SyncDrawClient:
         self.last_point = (event.x, event.y)
 
     def draw(self, event):
-        if self.last_point is None:
+        if self.last_point is None or self.sock is None:
             return
 
         x1, y1 = self.last_point
         x2, y2 = event.x, event.y
 
-        # Render immediately for responsive drawing.
-        self.canvas.create_line(
-            x1, y1, x2, y2,
-            fill=self.color,
-            width=3,
-            capstyle=tk.ROUND,
-        )
-
+        # Do not draw locally; render the server's broadcast
+        # to avoid duplicate strokes.
         try:
             with self.send_lock:
                 send_message(self.sock, {
@@ -188,8 +286,12 @@ class SyncDrawClient:
                     "color": self.color,
                     "width": 3,
                 })
+
         except (OSError, ConnectionError, AttributeError) as exc:
-            self.status.config(text="Send failed", fg="red")
+            self.status.config(
+                text="Send failed",
+                fg="red",
+            )
             print("Send error:", exc)
 
         self.last_point = (x2, y2)
