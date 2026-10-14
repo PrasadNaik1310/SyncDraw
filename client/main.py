@@ -8,7 +8,7 @@ import time
 
 from common.protocol import send_message, recv_message
 
-HOST = "127.0.0.1"
+HOST = "100.48.93.224"
 PORT = 8765
 CLIENT_ID = f"client_{uuid.uuid4().hex[:8]}"
 
