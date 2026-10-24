@@ -35,8 +35,8 @@ THEME = {
     "tool_button": 48,
     "swatch": 26,
     "panel_width": 300,
-    "min_size": (1000, 640),
-    "start_size": "1200x720",
+    "min_size": (1000, 680),
+    "start_size": (1200, 720),
 
     # Chrome colours (light, dark).
     "bg": ("#EEF1F5", "#16181D"),

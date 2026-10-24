@@ -6,6 +6,7 @@ socket, the receive thread and the message queue. Everything here runs on
 the Tkinter GUI thread.
 """
 
+import time
 import tkinter as tk
 from tkinter import colorchooser
 
@@ -164,6 +165,124 @@ def ask_pin(master):
     return dialog.value
 
 
+class SimpleDialog(ctk.CTkToplevel):
+    """Small modal: title, message, optional entry and two buttons."""
+
+    def __init__(self, master, title, heading, message, ok_text,
+                 cancel_text="Cancel", entry_default=None, danger=False):
+        super().__init__(master, fg_color=THEME["panel"])
+        self.value = None
+        self.title(title)
+        self.resizable(False, False)
+        self.transient(master)
+
+        ctk.CTkLabel(
+            self,
+            text=heading,
+            font=font("font_title", "bold"),
+            text_color=THEME["text"],
+        ).pack(padx=24, pady=(20, 2), anchor="w")
+
+        ctk.CTkLabel(
+            self,
+            text=message,
+            font=font("font_small"),
+            text_color=THEME["muted"],
+            wraplength=300,
+            justify="left",
+        ).pack(padx=24, anchor="w")
+
+        self.entry = None
+        if entry_default is not None:
+            self.entry = ctk.CTkEntry(
+                self,
+                width=280,
+                height=36,
+                corner_radius=THEME["radius_small"],
+                font=font(),
+            )
+            self.entry.insert(0, entry_default)
+            self.entry.pack(padx=24, pady=(14, 0))
+
+        row = ctk.CTkFrame(self, fg_color="transparent")
+        row.pack(fill="x", padx=24, pady=20)
+
+        if cancel_text:
+            ctk.CTkButton(
+                row,
+                text=cancel_text,
+                width=120,
+                height=34,
+                corner_radius=THEME["radius_small"],
+                fg_color="transparent",
+                border_width=1,
+                border_color=THEME["panel_border"],
+                text_color=THEME["text"],
+                hover_color=THEME["hover"],
+                font=font(),
+                command=self.destroy,
+            ).pack(side="left")
+
+        ctk.CTkButton(
+            row,
+            text=ok_text,
+            width=120,
+            height=34,
+            corner_radius=THEME["radius_small"],
+            fg_color=THEME["error"] if danger else THEME["accent"],
+            hover_color="#B91C1C" if danger else THEME["accent_hover"],
+            font=font("font_body", "bold"),
+            command=self.submit,
+        ).pack(side="right")
+
+        self.bind("<Return>", lambda e: self.submit())
+        self.bind("<Escape>", lambda e: self.destroy())
+
+        self.update_idletasks()
+        x = master.winfo_rootx() + (master.winfo_width() - self.winfo_width()) // 2
+        y = master.winfo_rooty() + (master.winfo_height() - self.winfo_height()) // 3
+        self.wm_geometry(f"+{max(0, x)}+{max(0, y)}")
+        self.after(150, self.take_focus)
+
+    def take_focus(self):
+        self.attributes("-topmost", True)
+        self.lift()
+        (self.entry or self).focus_force()
+        if self.entry is not None:
+            self.entry.select_range(0, "end")
+        try:
+            self.grab_set()
+        except tk.TclError:
+            pass
+
+    def submit(self):
+        self.value = self.entry.get() if self.entry is not None else True
+        self.destroy()
+
+
+def ask_name(master, default):
+    """Startup dialog for the display name; falls back to `default`."""
+    dialog = SimpleDialog(
+        master,
+        "Welcome to SyncDraw",
+        "👋 Welcome to SyncDraw",
+        "Enter your display name (max 20 characters).",
+        "Join",
+        cancel_text=None,
+        entry_default=default,
+    )
+    master.wait_window(dialog)
+    name = (dialog.value or "").strip()
+    return name or default
+
+
+def ask_confirm(master, heading, message, ok_text):
+    """Confirmation dialog; True only if the user confirms."""
+    dialog = SimpleDialog(master, "Confirm", heading, message, ok_text, danger=True)
+    master.wait_window(dialog)
+    return dialog.value is True
+
+
 class SyncDrawUI:
     """Layout and presentation methods for SyncDrawClient."""
 
@@ -173,8 +292,18 @@ class SyncDrawUI:
         root = self.root
         ctk.set_appearance_mode("light")
         root.title("SyncDraw — Viewer")
-        root.geometry(THEME["start_size"])
         root.minsize(*THEME["min_size"])
+
+        # Start centred and fully on screen (CTk scales the size but not
+        # the position, so x/y are physical pixels). Leave room for the
+        # title bar and taskbar; shrink on small screens.
+        s = ctk.ScalingTracker.get_window_scaling(root)
+        sw, sh = root.winfo_screenwidth(), root.winfo_screenheight()
+        w = min(THEME["start_size"][0], int((sw - 40) / s))
+        h = min(THEME["start_size"][1], int((sh - 140) / s))
+        x = max(0, int((sw - w * s) / 2))
+        y = max(0, int((sh - 90 - h * s) / 2))
+        root.geometry(f"{w}x{h}+{x}+{y}")
         root.configure(fg_color=THEME["bg"])
         root.grid_columnconfigure(1, weight=1)
         root.grid_rowconfigure(1, weight=1)
@@ -190,12 +319,19 @@ class SyncDrawUI:
         self.summary_panel_visible = True
         self.role_known = False
 
+        # Presence: online users and other users' cursors.
+        self.users = {}            # client_id -> user dict from the server
+        self.presence_known = False
+        self.remote_cursors = {}   # client_id -> {"tag", "x", "y", "seen"}
+        self.cursor_tag_count = 0
+
         self.build_header()
         self.build_tool_rail()
         self.build_canvas_area()
         self.build_summary_panel()
         self.build_toast()  # last, so it stacks above everything
         self.bind_shortcuts()
+        self.root.after(1000, self.sweep_remote_cursors)
 
     def build_header(self):
         pad = THEME["pad"]
@@ -381,12 +517,52 @@ class SyncDrawUI:
 
         self.divider(rail)
 
+        # Undo / Clear (admin only; the server enforces it too).
+        actions = ctk.CTkFrame(rail, fg_color="transparent")
+        actions.pack()
+
+        self.undo_button = ctk.CTkButton(
+            actions,
+            text="↶",
+            width=28,
+            height=30,
+            corner_radius=6,
+            border_spacing=0,
+            font=font("font_title", "bold"),
+            fg_color="transparent",
+            hover_color=THEME["hover"],
+            text_color=THEME["text"],
+            text_color_disabled=THEME["disabled"],
+            command=self.request_undo,
+        )
+        self.undo_button.grid(row=0, column=0, padx=1)
+        Tooltip(self.undo_button, "Undo last stroke (Ctrl+Z)")
+
+        self.clear_button = ctk.CTkButton(
+            actions,
+            text="🗑",
+            width=28,
+            height=30,
+            corner_radius=6,
+            border_spacing=0,
+            font=icon_font("font_body"),
+            fg_color="transparent",
+            hover_color=THEME["error_soft"],
+            text_color=THEME["error"],
+            text_color_disabled=THEME["disabled"],
+            command=self.request_clear,
+        )
+        self.clear_button.grid(row=0, column=1, padx=1)
+        Tooltip(self.clear_button, "Clear board for everyone")
+
+        self.divider(rail)
+
         # One size slider for the active tool.
         self.size_slider = ctk.CTkSlider(
             rail,
             orientation="vertical",
             width=16,
-            height=130,
+            height=100,
             from_=PEN_MIN,
             to=PEN_MAX,
             number_of_steps=(PEN_MAX - PEN_MIN) // PEN_STEP,
@@ -483,8 +659,37 @@ class SyncDrawUI:
         panel.pack_propagate(False)
         self.summary_panel = panel
 
+        # Online users (presence data from PRESENCE_UPDATE).
+        title_row = ctk.CTkFrame(panel, fg_color="transparent")
+        title_row.pack(fill="x", padx=14, pady=(12, 2))
+
+        ctk.CTkLabel(
+            title_row,
+            text="●",
+            text_color=THEME["ok"],
+            font=font("font_body"),
+        ).pack(side="left", padx=(0, 6))
+
+        self.online_title = ctk.CTkLabel(
+            title_row,
+            text="Online (0)",
+            font=font("font_body", "bold"),
+            text_color=THEME["text"],
+        )
+        self.online_title.pack(side="left")
+
+        self.online_list = ctk.CTkScrollableFrame(
+            panel,
+            height=96,
+            corner_radius=10,
+            fg_color=THEME["card"],
+        )
+        self.online_list.pack(fill="x", padx=14)
+
+        ctk.CTkFrame(panel, height=1, fg_color=THEME["divider"]).pack(fill="x", padx=14, pady=(12, 0))
+
         top = ctk.CTkFrame(panel, fg_color="transparent")
-        top.pack(fill="x", padx=14, pady=(14, 0))
+        top.pack(fill="x", padx=14, pady=(10, 0))
 
         ctk.CTkLabel(
             top,
@@ -588,6 +793,8 @@ class SyncDrawUI:
             self.root.bind(f"<Key-{key}>", lambda e: self.on_shortcut(lambda: self.set_tool("eraser")))
         self.root.bind("<bracketleft>", lambda e: self.on_shortcut(lambda: self.change_size(-1)))
         self.root.bind("<bracketright>", lambda e: self.on_shortcut(lambda: self.change_size(1)))
+        for key in ("<Control-z>", "<Control-Z>"):
+            self.root.bind(key, lambda e: self.on_shortcut(self.request_undo))
 
     # ---------- helpers ----------
 
@@ -715,6 +922,8 @@ class SyncDrawUI:
             *self.tool_buttons.values(),
             *self.swatch_buttons.values(),
             self.custom_color_button,
+            self.undo_button,
+            self.clear_button,
             self.size_slider,
         ):
             widget.configure(state=state)
@@ -894,9 +1103,13 @@ class SyncDrawUI:
         self.mouse_pos = (event.x, event.y)
         self.update_eraser_cursor()
 
+        # Everyone (admins and viewers) shares their pointer.
+        self.send_cursor(*self.to_board(event.x, event.y))
+
     def hide_eraser_cursor(self, event=None):
         self.mouse_pos = None
         self.canvas.delete("eraser_cursor")
+        self.send_cursor(hidden=True)
 
     def update_eraser_cursor(self):
         """Draw a dashed circle under the mouse while erasing."""
@@ -963,6 +1176,158 @@ class SyncDrawUI:
         self.summary_status.configure(text="✨ Summarizing" + "." * (self.dots % 4))
         self.dots += 1
         self.dots_after_id = self.root.after(THEME["dots_ms"], self.animate_dots)
+
+    # ---------- presence: online list and remote cursors ----------
+
+    def update_presence(self, users):
+        """Online list from PRESENCE_UPDATE (no version, no sync)."""
+        old = self.users
+        self.users = {u.get("client_id"): u for u in users if isinstance(u, dict)}
+
+        # Join/leave toasts (not for the first list after connecting).
+        if self.presence_known:
+            for cid, user in self.users.items():
+                if cid not in old and cid != self.client_id:
+                    self.show_toast(f"{user.get('name', cid)} joined", "info")
+            for cid, user in old.items():
+                if cid not in self.users and cid != self.client_id:
+                    self.show_toast(f"{user.get('name', cid)} left", "info")
+        self.presence_known = True
+
+        # Users who left lose their cursor.
+        for cid in list(self.remote_cursors):
+            if cid not in self.users:
+                self.remove_remote_cursor(cid)
+
+        self.refresh_online_list()
+
+    def clear_presence(self):
+        self.users = {}
+        self.presence_known = False
+        for cid in list(self.remote_cursors):
+            self.remove_remote_cursor(cid)
+        self.refresh_online_list()
+
+    def refresh_online_list(self):
+        for child in self.online_list.winfo_children():
+            child.destroy()
+
+        self.online_title.configure(text=f"Online ({len(self.users)})")
+
+        # Admin first, then by name.
+        ordered = sorted(
+            self.users.values(),
+            key=lambda u: (u.get("role") != "admin", str(u.get("name", "")).lower()),
+        )
+
+        for user in ordered:
+            row = ctk.CTkFrame(self.online_list, fg_color="transparent")
+            row.pack(fill="x", pady=1)
+
+            ctk.CTkLabel(
+                row,
+                text="●",
+                width=14,
+                text_color=user.get("color", THEME["muted"]),
+                font=font("font_body"),
+            ).pack(side="left")
+
+            you = " (you)" if user.get("client_id") == self.client_id else ""
+            ctk.CTkLabel(
+                row,
+                text=f"{user.get('name', '?')}{you}",
+                text_color=THEME["text"],
+                font=font("font_small", "bold" if you else "normal"),
+                anchor="w",
+            ).pack(side="left", padx=(4, 0))
+
+            is_admin = user.get("role") == "admin"
+            ctk.CTkLabel(
+                row,
+                text="🖊 Admin" if is_admin else "👁 Viewer",
+                height=20,
+                corner_radius=10,
+                padx=6,
+                fg_color=THEME["accent_soft"] if is_admin else THEME["chip"],
+                text_color=THEME["accent"] if is_admin else THEME["muted"],
+                font=font("font_small"),
+            ).pack(side="right", padx=(0, 4))
+
+    def update_remote_cursor(self, message):
+        """Move (or create) another user's cursor. Best effort only."""
+        cid = message.get("client_id")
+        if not isinstance(cid, str) or cid == self.client_id:
+            return
+
+        if message.get("hidden"):
+            self.remove_remote_cursor(cid)
+            return
+
+        x, y = message.get("x"), message.get("y")
+        if type(x) not in (int, float) or type(y) not in (int, float):
+            return
+
+        s = self.canvas_scale
+        px, py = x * s, y * s
+        cursor = self.remote_cursors.get(cid)
+
+        if cursor is None:
+            cursor = self.create_remote_cursor(cid, px, py)
+        else:
+            # Move the existing items instead of recreating them.
+            self.canvas.move(cursor["tag"], px - cursor["x"], py - cursor["y"])
+            cursor["x"], cursor["y"] = px, py
+
+        cursor["seen"] = time.monotonic()
+        self.canvas.tag_raise("remote_cursor")
+        self.canvas.tag_raise("eraser_cursor")
+
+    def create_remote_cursor(self, cid, px, py):
+        user = self.users.get(cid, {})
+        color = user.get("color", "#6B7280")
+        name = user.get("name", cid)
+
+        # Safe internal tag: client IDs are chosen by clients and could
+        # contain characters Tk treats as tag operators.
+        self.cursor_tag_count += 1
+        tag = f"cursor_{self.cursor_tag_count}"
+        tags = ("remote_cursor", tag)
+
+        # Small arrow pointer plus a name label.
+        k = self.canvas_scale
+        arrow = [(0, 0), (0, 15), (4, 11), (7, 18), (10, 17), (7, 10), (12, 10)]
+        self.canvas.create_polygon(
+            [c for x, y in arrow for c in (px + x * k, py + y * k)],
+            fill=color, outline="#FFFFFF", width=1, tags=tags,
+        )
+        text = self.canvas.create_text(
+            px + 14 * k, py + 20 * k,
+            text=name, anchor="nw", fill="#FFFFFF",
+            font=font("font_small", "bold"), tags=tags,
+        )
+        x1, y1, x2, y2 = self.canvas.bbox(text)
+        box = self.canvas.create_rectangle(
+            x1 - 4, y1 - 1, x2 + 4, y2 + 1,
+            fill=color, outline="", tags=tags,
+        )
+        self.canvas.tag_lower(box, text)
+
+        cursor = {"tag": tag, "x": px, "y": py, "seen": time.monotonic()}
+        self.remote_cursors[cid] = cursor
+        return cursor
+
+    def remove_remote_cursor(self, cid):
+        cursor = self.remote_cursors.pop(cid, None)
+        if cursor is not None:
+            self.canvas.delete(cursor["tag"])
+
+    def sweep_remote_cursors(self):
+        """Remove cursors with no update for 5 seconds."""
+        now = time.monotonic()
+        for cid, cursor in list(self.remote_cursors.items()):
+            if now - cursor["seen"] > 5:
+                self.remove_remote_cursor(cid)
+        self.root.after(1000, self.sweep_remote_cursors)
 
     # ---------- toasts ----------
 

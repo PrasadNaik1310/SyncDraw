@@ -10,7 +10,7 @@ import customtkinter as ctk
 
 from common.protocol import send_message, recv_message
 from client.theme import THEME
-from client.ui import SyncDrawUI, ask_pin
+from client.ui import SyncDrawUI, ask_confirm, ask_name, ask_pin
 
 HOST = "100.48.93.224"
 PORT = 8765
@@ -21,6 +21,12 @@ CANVAS_BG = THEME["canvas_bg"]
 
 # Longer than the server's worst case (main model + fallback).
 SUMMARY_TIMEOUT_MS = 150_000
+
+# Live cursors: at most ~20 messages per second.
+CURSOR_INTERVAL = 0.05
+
+# Versioned board operations: all go through the same version check.
+BOARD_UPDATES = ("DRAW_UPDATE", "UNDO_UPDATE", "CLEAR_UPDATE")
 
 
 class SyncDrawClient(SyncDrawUI):
@@ -54,6 +60,16 @@ class SyncDrawClient(SyncDrawUI):
         self.admin_id = None
         self.pin_required = False
 
+        # Stroke being drawn: groups DRAW segments for undo.
+        self.stroke_id = None
+
+        # Live cursor throttle (timestamps, never sleep).
+        self.last_cursor_time = 0.0
+        self.last_cursor_pos = None
+        self.cursor_hidden = True
+        self.cursor_pending = None
+        self.cursor_after_id = None
+
         # Layout, widgets and shortcuts live in client/ui.py.
         self.build_ui()
 
@@ -61,6 +77,9 @@ class SyncDrawClient(SyncDrawUI):
 
         self.set_tool("pen")
         self.apply_role()
+
+        # Display name for the online list (not an identity).
+        self.display_name = ask_name(self.root, CLIENT_ID)
         self.connect()
         self.root.after(50, self.process_messages)
 
@@ -88,6 +107,84 @@ class SyncDrawClient(SyncDrawUI):
             print("Admin request failed:", exc)
             self.show_server_error("Not connected")
 
+    def request_undo(self):
+        # The server enforces admin-only; this just avoids a useless request.
+        if self.role == "admin":
+            self.send_request({"type": "UNDO_REQUEST"})
+
+    def request_clear(self):
+        if self.role != "admin":
+            return
+
+        if ask_confirm(
+            self.root,
+            "Clear the board for everyone?",
+            "This cannot be undone.",
+            "Clear board",
+        ):
+            self.send_request({"type": "CLEAR_REQUEST"})
+
+    def send_request(self, message):
+        try:
+            with self.send_lock:
+                send_message(self.sock, message)
+
+        except (OSError, ConnectionError, AttributeError) as exc:
+            print("Request failed:", exc)
+            self.show_server_error("Not connected")
+
+    def send_cursor(self, x=None, y=None, hidden=False):
+        """Live cursor (presence data: no version, may be dropped).
+
+        At most one message per CURSOR_INTERVAL, only when it moved.
+        A throttled position is sent later with after(), so the last
+        position is never lost.
+        """
+        if self.sock is None:
+            return
+
+        if hidden:
+            if self.cursor_after_id is not None:
+                self.root.after_cancel(self.cursor_after_id)
+                self.cursor_after_id = None
+            if self.cursor_hidden:
+                return
+            message = {"type": "CURSOR", "hidden": True}
+
+        else:
+            if (x, y) == self.last_cursor_pos and not self.cursor_hidden:
+                return
+
+            wait = CURSOR_INTERVAL - (time.monotonic() - self.last_cursor_time)
+
+            if wait > 0:
+                self.cursor_pending = (x, y)
+                if self.cursor_after_id is None:
+                    self.cursor_after_id = self.root.after(
+                        int(wait * 1000) + 1,
+                        self.flush_cursor,
+                    )
+                return
+
+            message = {"type": "CURSOR", "x": x, "y": y}
+
+        try:
+            with self.send_lock:
+                send_message(self.sock, message)
+        except (OSError, ConnectionError, AttributeError):
+            return  # best effort
+
+        self.last_cursor_time = time.monotonic()
+        self.cursor_hidden = hidden
+        self.last_cursor_pos = None if hidden else (x, y)
+
+    def flush_cursor(self):
+        self.cursor_after_id = None
+        if self.cursor_pending is not None:
+            x, y = self.cursor_pending
+            self.cursor_pending = None
+            self.send_cursor(x, y)
+
     def connect(self):
         try:
             self.sock = socket.create_connection(
@@ -99,6 +196,7 @@ class SyncDrawClient(SyncDrawUI):
             send_message(self.sock, {
                 "type": "HELLO",
                 "client_id": CLIENT_ID,
+                "name": self.display_name,
                 "last_version": self.last_version,
             })
 
@@ -161,6 +259,7 @@ class SyncDrawClient(SyncDrawUI):
                         send_message(new_sock, {
                             "type": "HELLO",
                             "client_id": CLIENT_ID,
+                            "name": self.display_name,
                             "last_version": self.last_version,
                         })
 
@@ -202,11 +301,12 @@ class SyncDrawClient(SyncDrawUI):
 
             msg_type = message.get("type")
 
-            if msg_type == "DRAW_UPDATE":
+            if msg_type in BOARD_UPDATES:
+                # DRAW, UNDO and CLEAR updates share one version check.
                 incoming_version = message["version"]
 
                 if incoming_version == self.last_version + 1:
-                    self.render_operation(message)
+                    self.apply_board_update(message)
                     self.last_version = incoming_version
 
                 elif incoming_version <= self.last_version:
@@ -230,13 +330,11 @@ class SyncDrawClient(SyncDrawUI):
                             print("Sync request failed:", exc)
 
             elif msg_type == "SNAPSHOT":
-                self.canvas.delete("all")
+                # Only strokes: keep remote cursors and the eraser preview.
+                self.canvas.delete("stroke")
 
                 for operation in message["operations"]:
                     self.render_operation(operation)
-
-                # delete("all") also removed the eraser cursor.
-                self.update_eraser_cursor()
 
                 self.last_version = message["version"]
                 self.sync_requested = False
@@ -255,6 +353,13 @@ class SyncDrawClient(SyncDrawUI):
                 # Not a board update, so it skips the version-gap check.
                 self.handle_summary_response(message)
 
+            # Presence data: no version, never triggers SYNC_REQUEST.
+            elif msg_type == "PRESENCE_UPDATE":
+                self.update_presence(message.get("users", []))
+
+            elif msg_type == "CURSOR_UPDATE":
+                self.update_remote_cursor(message)
+
             elif msg_type == "CONNECTION_LOST":
                 # receive_loop is already retrying every 2 seconds.
                 self.set_status("Reconnecting…", "warn")
@@ -267,6 +372,11 @@ class SyncDrawClient(SyncDrawUI):
                 self.admin_id = None
                 self.role_known = False
                 self.apply_role()
+
+                # Presence is rebuilt from the next PRESENCE_UPDATE.
+                self.clear_presence()
+                self.cursor_hidden = True
+                self.last_cursor_pos = None
 
                 # A pending summary will never arrive on the old socket.
                 if self.summary_pending:
@@ -339,6 +449,22 @@ class SyncDrawClient(SyncDrawUI):
             kind = "warn" if error.startswith("Please wait") else "error"
             self.show_summary_card(kind, error)
 
+    def apply_board_update(self, message):
+        """Apply one versioned board operation (already version-checked)."""
+        msg_type = message["type"]
+
+        if msg_type == "DRAW_UPDATE":
+            self.render_operation(message)
+
+        elif msg_type == "UNDO_UPDATE":
+            # Removing an eraser stroke makes the drawing under it reappear.
+            self.canvas.delete(f"stroke_{message.get('stroke_id')}")
+
+        elif msg_type == "CLEAR_UPDATE":
+            # Strokes only: cursors and the eraser preview stay.
+            self.canvas.delete("stroke")
+            self.show_toast(f"{message.get('by', 'The admin')} cleared the board", "info")
+
     def render_operation(self, operation):
         if operation.get("type") not in ("DRAW", "DRAW_UPDATE"):
             return
@@ -353,6 +479,9 @@ class SyncDrawClient(SyncDrawUI):
         # Board units -> screen pixels (HiDPI scaling).
         s = self.canvas_scale
 
+        # Tag by stroke so undo can delete the whole stroke.
+        stroke_id = operation.get("stroke_id") or f"legacy_{operation.get('version')}"
+
         self.canvas.create_line(
             operation["x1"] * s,
             operation["y1"] * s,
@@ -362,10 +491,11 @@ class SyncDrawClient(SyncDrawUI):
             width=operation.get("width", 3) * s,
             capstyle=tk.ROUND,
             joinstyle=tk.ROUND,
-            tags="stroke",
+            tags=("stroke", f"stroke_{stroke_id}"),
         )
 
-        # Keep the eraser cursor above all strokes.
+        # Keep cursors and the eraser preview above all strokes.
+        self.canvas.tag_raise("remote_cursor")
         self.canvas.tag_raise("eraser_cursor")
 
     def start_draw(self, event):
@@ -374,6 +504,9 @@ class SyncDrawClient(SyncDrawUI):
             return
 
         self.last_point = self.to_board(event.x, event.y)
+
+        # New stroke: every segment until release shares this ID.
+        self.stroke_id = uuid.uuid4().hex[:12]
 
     def draw(self, event):
         self.track_mouse(event)
@@ -394,6 +527,7 @@ class SyncDrawClient(SyncDrawUI):
             "y1": y1,
             "x2": x2,
             "y2": y2,
+            "stroke_id": self.stroke_id,
         }
 
         # Eraser sends no colour; the server fills in the background.
@@ -419,6 +553,7 @@ class SyncDrawClient(SyncDrawUI):
 
     def stop_draw(self, event):
         self.last_point = None
+        self.stroke_id = None
 
     def close(self):
         self.running = False
