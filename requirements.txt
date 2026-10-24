@@ -1,0 +1,8 @@
+# SERVER only (board summary with Google Gemini):
+google-genai
+pillow
+python-dotenv
+
+# CLIENT only (modern UI). Install on every teammate's laptop:
+#   pip install customtkinter
+customtkinter
