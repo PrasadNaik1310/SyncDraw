@@ -12,7 +12,7 @@ from common.protocol import send_message, recv_message
 from client.theme import THEME
 from client.ui import SyncDrawUI, ask_confirm, ask_name, ask_pin
 
-HOST = "100.48.93.224"
+HOST = "100.58.121.152"
 PORT = 8765
 CLIENT_ID = f"client_{uuid.uuid4().hex[:8]}"
 

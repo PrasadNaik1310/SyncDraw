@@ -1,0 +1,368 @@
+File: Unit_2.pdf
+Pages: 365
+------------------------------------------------------------
+Page   1 |Chars:   108 |Preview: Software Design UNIT II S.Y. Semester IV 2/25/2024 Software Engineering and Project Management- UNIT II 1
+Page   2 |Chars:   630 |Preview: Syllabus – Unit II SOFTWARE DESIGN Abstraction, Modularity, Cohesion & Coupling, Scenario based modeling, SSAD ( ER diagram, Data Flow Diagram DFD), OOAD (Unified Modeling Language
+Page   3 |Chars:   490 |Preview: SOFTWARE DESIGN SOFTWARE DESIGN • Abstraction, Modularity, Cohesion & Coupling, • Scenario based modeling : it identifies the primary use cases for the proposed software system or 
+Page   4 |Chars:   454 |Preview: Software Design • Software design is a process to transform user requirements into some suitable form, which helps the programmer in software coding and implementation. • Software 
+Page   5 |Chars:    91 |Preview: Good design and Bad Design 2/25/2024 Software Engineering and Project Management- UNIT II 5
+Page   6 |Chars:   395 |Preview: What is a good design? • A good design is focused. • A good design is effective and efficient in fulfilling its purpose. • It relies on as few external factors and inputs as possib
+Page   7 |Chars:   496 |Preview: Good Design vs Bad Design 2/25/2024 Software Engineering and Project Management- UNIT II 7 Good Design Bad Design 1. Meets all technical requirements 1. Meets only some technical r
+Page   8 |Chars:   850 |Preview: Software Design Levels • Software design yields three levels of results: 1. Architectural Design - i. is the highest abstract version of the system and identifies the software as a
+Page   9 |Chars:    88 |Preview: Software Design Levels 2/25/2024 Software Engineering and Project Management- UNIT II 9
+Page  10 |Chars:   655 |Preview: Software Design Levels 2/25/2024 Software Engineering and Project Management- UNIT II 10 Architectural Design •first level of the designing. •is the greatest summarizing edition of
+Page  11 |Chars:   423 |Preview: Abstraction • The principle of abstraction requires: – lower-level modules do not invoke functions of higher-level modules. – Also known as layered design. • High Level Design: Hig
+Page  12 |Chars:   519 |Preview: Modularity • Modularity is a fundamental attributes of any good design. – Decomposition of a problem cleanly into modules – Modules are almost independent of each other – Divide an
+Page  13 |Chars:   589 |Preview: Modularity • A module ideally should have high cohesion and low coupling: • Functionally independent of other modules to have minimal interaction with other modules. • Improves und
+Page  14 |Chars:   396 |Preview: Modularity • In technical terms, modules should display: – high cohesion – low coupling. • Cohesion is a measure of: – Functional strength of a module. – A cohesive module performs
+Page  15 |Chars:    87 |Preview: Cohesion and Coupling Software Engineering and Project Management- UNIT II 15 2/25/2024
+Page  16 |Chars:   191 |Preview: Cohesion and Coupling 2/25/2024 Software Engineering and Project Management- UNIT II 16 Ideally good Software Design will promote Tight cohesion and Low coupling - Changes in the s
+Page  17 |Chars:   380 |Preview: Transition from Analysis to Design • Analysis: A process of extracting and organizing user requirements and establishing an accurate model of the problem domain.(WHAT) • Design: Pr
+Page  18 |Chars:   236 |Preview: Transition from Analysis to Design • Blurred line between analysis & design • Design will also lead to better understanding of requirements • Can be performed iteratively 2/25/2024
+Page  19 |Chars:   497 |Preview: Two Approaches for Analysis & Design • Traditional Approach: SSAD(System Structured Analysis and Design) • Structured Analysis (SA), resulting in a logical design, drawn as a set o
+Page  20 |Chars:   733 |Preview: Structured Analysis • Is a development method to understand the system and its activities in a logical way. • It is a systematic approach that analyze and refine objectives of an s
+Page  21 |Chars:    85 |Preview: Structured Analysis 21 2/25/2024 Software Engineering and Project Management- UNIT II
+Page  22 |Chars:   470 |Preview: Structured Analysis • Data design transforms ERD (Entity Relationship Diagram) into data structures • Architectural design - higher-level structure of the system that depicts the r
+Page  23 |Chars:    78 |Preview: SSAD Phases 2/25/2024 Software Engineering and Project Management- UNIT II 23
+Page  24 |Chars:   559 |Preview: Data Flow Diagrams • The DFD (also known as a bubble chart) is a hierarchical graphical model of a system that shows the different processing activities or functions that the syste
+Page  25 |Chars:   941 |Preview: DFD Notations 2/25/2024 25 Software Engineering and Project Management- UNIT II S.No Name Description Notation Yourdon and Coad Gane and Sarson 1 External Entity An outside system 
+Page  26 |Chars:   362 |Preview: Data-processing models • Data flow diagrams are used to model the system’s data processing • These show the processing steps as data flows through a system • Intrinsic part of many
+Page  27 |Chars:   299 |Preview: DFD • A data flow diagram can dive into progressively more detail by using levels, zeroing in on a particular piece. DFD levels are numbered 0, 1 or 2, and occasionally go to even 
+Page  28 |Chars:   638 |Preview: DFD Levels • Level 0: Context Diagram : high-level system processes or functions and the data sources that flow to or from them. These are designed to be simple, straightforward ov
+Page  29 |Chars:   485 |Preview: DFD- Level 0 • DFD Level 0 is also called a Context Diagram. • It’s a basic overview of the whole system or process being analyzed or modeled. • It’s designed to be an at-a-glance 
+Page  30 |Chars:   330 |Preview: DFD- Level 1 • DFD Level 1 provides a more detailed breakout of pieces of the Context Level Diagram. • You will highlight the main functions carried out by the system, as you break
+Page  31 |Chars:   241 |Preview: DFD- Level 2 2/25/2024 Software Engineering and Project Management- UNIT II 31 • DFD Level 2 then goes one step deeper into parts of Level 1. It may require more text to reach the 
+Page  32 |Chars:   277 |Preview: DFD rules, guidelines, and tips: • Each process has at least one outgoing data flow and at least one incoming data flow. • Each process can go to any other symbol (other processes,
+Page  33 |Chars:   249 |Preview: DFD rules, guidelines, and tips: • Each data store should have at least one incoming or at least one outgoing data flow. • Entities must be connected to a process by a data flow. 2
+Page  34 |Chars:   469 |Preview: DFD rules, guidelines, and tips • Data flows should not usually cross each other. • Data stores cannot be connected to external entities. Otherwise, it means you’re allowing an ext
+Page  35 |Chars:   392 |Preview: Example 1: Securities Trading Platform • Level 0 : This Level 0 DFD provides a contextual map of a securities trading platform. Data flows in one direction from the customer servic
+Page  36 |Chars:   341 |Preview: Level 1 DFD • This Level 1 DFD breaks down the customer process in more detail, expanding it to include account creation, cash withdrawals, and eventual securities transactions. 2/
+Page  37 |Chars:   403 |Preview: Level 2 DFD Level 2 DFD decomposes the “Place Order” process to contextualize the steps required to place an order — either by a customer or by a broker. It even accounts for a thi
+Page  38 |Chars:    88 |Preview: Example 2 : Safe home 38 2/25/2024 Software Engineering and Project Management- UNIT II
+Page  39 |Chars:    65 |Preview: 39 2/25/2024 Software Engineering and Project Management- UNIT II
+Page  40 |Chars:    73 |Preview: Level 1 40 2/25/2024 Software Engineering and Project Management- UNIT II
+Page  41 |Chars:    73 |Preview: Level 2 41 2/25/2024 Software Engineering and Project Management- UNIT II
+Page  42 |Chars:   100 |Preview: Example 3: Level 1 :Payroll System 2/25/2024 Software Engineering and Project Management- UNIT II 42
+Page  43 |Chars:    90 |Preview: Level 2 :Payroll System 2/25/2024 Software Engineering and Project Management- UNIT II 43
+Page  44 |Chars:   474 |Preview: What are the advantages of DFD ? • A graphical technique that is relatively easy to understand for stakeholders and other users. • Provides a detailed view of the system components
+Page  45 |Chars:   471 |Preview: Entity Relationship Diagrams • An ERD shows the relationships of entity sets stored in a database. – An entity in this context is an object, a component of data. – An entity set is
+Page  46 |Chars:   777 |Preview: ER Diagram Notations • Entities : is an object or concept about which you want to store information. • Actions, which are represented by diamond shapes, show how two entities share
+Page  47 |Chars:    65 |Preview: 2/25/2024 Software Engineering and Project Management- UNIT II 47
+Page  48 |Chars:   129 |Preview: Example 1 • Draw an ER diagram to show that shopper buys items. 2/25/2024 Software Engineering and Project Management- UNIT II 48
+Page  49 |Chars:   183 |Preview: Example 2 • Draw an ER diagram to show that a student registers for a course. The course is taught by an Professor. 2/25/2024 Software Engineering and Project Management- UNIT II 4
+Page  50 |Chars:   190 |Preview: Example 3 • Draw ER diagram for : A student attends classes. Each class has many sections. The student takes up a subject. 2/25/2024 Software Engineering and Project Management- UN
+Page  51 |Chars:   813 |Preview: OOAD : Object Oriented Analysis and Design • Object-Oriented Analysis : Is the procedure of identifying requirements and developing specifications by using interacting objects. • I
+Page  52 |Chars:   427 |Preview: OOAD • Object-Oriented Design: Involves implementation of the conceptual model produced during object-oriented analysis • The implementation details generally include − – Restructu
+Page  53 |Chars:   211 |Preview: OOAD methods Three major steps: 1. Identify the objects 2. Determine their attributes and services 3. Determine the relationships between objects 2/25/2024 Software Engineering and
+Page  54 |Chars:   353 |Preview: Object-Oriented Approach • Views information system as collection of interacting objects that work together to accomplish tasks • OOA • OOD • OOP • Object-oriented analysis (OOA) –
+Page  55 |Chars:    88 |Preview: 4+1 view Architecture 2/25/2024 Software Engineering and Project Management- UNIT II 55
+Page  56 |Chars:   417 |Preview: use case view use case view • encompasses the use cases that describe the behavior of the system as seen by its end users, analysts, and testers. • With the UML, the static aspects
+Page  57 |Chars:   574 |Preview: design view design view • encompasses the classes, interfaces, and collaborations that form the vocabulary of the problem and its solution. • This view primarily supports the funct
+Page  58 |Chars:   531 |Preview: process view process view • process view of a system encompasses the threads and processes that form the system's concurrency and synchronization mechanisms. • This view primarily 
+Page  59 |Chars:   652 |Preview: implementation view implementation view • implementation view of a system encompasses the components and files that are used to assemble and release the physical system. • This vie
+Page  60 |Chars:   554 |Preview: deployment view deployment view • deployment view of a system encompasses the nodes that form the system's hardware topology on which the system executes. • This view primarily add
+Page  61 |Chars:   242 |Preview: Logical view Deployment View Process View Implementation view 4+1 View Model of Architecture End user System Engineer Integrator Programmer s & software managers Scenarios 2/25/202
+Page  62 |Chars:   309 |Preview: Logical View • The logical view, which is the object model of the design (when an object-oriented design method is used) Viewer: End-user considers: Functional requirements- What a
+Page  63 |Chars:   307 |Preview: Process View The process view, which captures the concurrency and synchronization aspects of the design (The process decompositi on). viewer: Integrators considers: Non - functiona
+Page  64 |Chars:   357 |Preview: Implementation View The Implementation view, which describes the static organization of the software in its development environment. Viewer: Programmers and Software Managers consi
+Page  65 |Chars:   418 |Preview: Deployment View the Deployment view, which describes the mapping(s) of the software onto the hardware and reflects its distributed aspect. Viewer: System Engineers Considers: Non-f
+Page  66 |Chars:   220 |Preview: Scenarios (Putting all “4 views” together) Viewer: All users and Evaluators. Considers: System consistency and validity Notation: Similar to logical view 66 2/25/2024 Software Engi
+Page  67 |Chars:   451 |Preview: General Advantages • Understandable – maps the “real-world” objects more directly – manages complexity via abstraction and encapsulation • Practical – successful in real applicatio
+Page  68 |Chars:   543 |Preview: Unified Modeling Language (UML) • UML (Unified Modeling Language) is a modeling language used by software developers. • UML can be used to develop diagrams and provide users with r
+Page  69 |Chars:   476 |Preview: What is UML? • UML (Unified Modeling Language) – An emerging standard for modeling object-oriented software. – Resulted from the convergence of notations from three leading object-
+Page  70 |Chars:   185 |Preview: INTRODUCTION TO UML DIAGRAM. UML Refactoring Design Prototyping Code Generation Automated Tests Analysis Documentation 2/25/2024 Software Engineering and Project Management- UNIT I
+Page  71 |Chars:   438 |Preview: Systems, Models and Views • A model is an abstraction describing a subset of a system • A view depicts selected aspects of a model • A notation is a set of graphical or textual rul
+Page  72 |Chars:   577 |Preview: UML Concepts • UML can be used to support your entire life cycle – UML can be described as a general purpose visual modeling language to visualize, specify, construct, and document
+Page  73 |Chars:   422 |Preview: • Unified modeling language (UML) for visualizing, specifying, constructing, documenting of artifact of a software system • Used to create blueprint of a system • UML is also used 
+Page  74 |Chars:   337 |Preview: UML 2.0 Diagrams • UML is divided in to two General set of Diagrams • Structured modeling diagrams – It depicts the static view of the model • Behavioral modeling diagram – Behavio
+Page  75 |Chars:   222 |Preview: Structural Modeling Diagram(Static Design) • Class Diagram • Object Diagram • Component Diagram • Package Diagram • Composite Structure • Deployment Diagram 2/25/2024 Software Engi
+Page  76 |Chars:   263 |Preview: Behavioral Modeling Diagram(Dynamic Design) • Use Case Diagram • Activity Diagram • State Machine Diagram • Communication Diagram • Sequence Diagram • Timing Diagram • Interaction 
+Page  77 |Chars:   292 |Preview: BUILDING BLOCKS OF UML The building blocks of UML can be defined as: Things Relationships Diagrams Things: Things are the most important building blocks of UML. Things can be: Stru
+Page  78 |Chars:   718 |Preview: STRUCTURAL THINGS The Structural things define the static part of the model. They represent physical and conceptual elements. Following are the brief descriptions of the structural
+Page  79 |Chars:    83 |Preview: Structural things 2/25/2024 Software Engineering and Project Management- UNIT II 79
+Page  80 |Chars:   572 |Preview: BEHAVIORAL THING A behavioral thing consists of the dynamic parts of UML models. Following are the behavioral things: Interaction: Interaction is defined as a behavior that consist
+Page  81 |Chars:   263 |Preview: RELATIONSHIP Relationship is another most important building block of UML. It shows how elements are associated with each other and this association describes the functionality of 
+Page  82 |Chars:   828 |Preview: Continued • Dependency: Dependency is a relationship between two things in which change in one element also affects the other one. • Association: Association is basically a set of 
+Page  83 |Chars:   455 |Preview: Why an extension mechanism? • Although UML is very well-defined, there are situations in which it needs to be customized to specific problem domains • UML extension mechanisms are 
+Page  84 |Chars:   370 |Preview: Stereotypes •Stereotypes are used to extend UML to create new model elements that can be used in specific domains •E.g. when modeling an elevator control system, we may need to rep
+Page  85 |Chars:   373 |Preview: Stereotypes (cont.) «button» CancelButton Stereotype state •Ways of representing a stereotype: -Place the name of the stereotype above the name of an existing UML element (if any) 
+Page  86 |Chars:   487 |Preview: Tagged Values • Tagged values – Define additional properties for any kind of model elements – Can be defined for existing model elements and for stereotypes – Are shown as a tag-va
+Page  87 |Chars:   307 |Preview: Tagged Values (cont.) • A tagged value is shown as a string that is enclosed by brackets {} and which consists of: - the tag, a separator (the symbol =), and a value {author = “Bob
+Page  88 |Chars:   400 |Preview: Constraints • Constraints are used to extend the semantics of UML by adding new rules, or modifying existing ones. • Constraints can also be used to specify conditions that must be
+Page  89 |Chars:   386 |Preview: Comments • Comments are used to help clarify the models that are being created - e.g. comments may be used for explaining the rationale behind some design decisions • A comment is 
+Page  90 |Chars:   165 |Preview: UML • UML diagrams – Static modeling (Structure Diagrams) – Dynamic modeling (Behavior Diagrams) 2/25/2024 Software Engineering and Project Management- UNIT II 90
+Page  91 |Chars:   247 |Preview: Static Modeling( static Design) ●Class diagrams ● Object diagrams ●Composite structure diagrams ●Package diagrams ●Component Diagram - Interfaces and Components ●Deployment Diagram
+Page  92 |Chars:   407 |Preview: Class Diagram 2/25/2024 Software Engineering and Project Management- UNIT II 92 • A class diagram depicts classes and their interrelationships • Used for describing structure and b
+Page  93 |Chars:   543 |Preview: • Class diagrams are one of the most fundamental diagram types in UML. • They are used to capture the static relationships of your software; in other words, how things are put toge
+Page  94 |Chars:   603 |Preview: Class Diagram 2/25/2024 Software Engineering and Project Management- UNIT II 94 S.No Name Description Notation 1 Classes They are used to show the different classes in a system, th
+Page  95 |Chars:   459 |Preview: Class Diagram 2/25/2024 Software Engineering and Project Management- UNIT II 95 S.No Name Description Notation 3 Generalization Generalization is a relationship in which one model 
+Page  96 |Chars:   277 |Preview: Drawing a Class Diagram ? • Identify and model classes—Which classes do we need? • Identify and model associations—How are the classes connected? • Define attributes—What do we wan
+Page  97 |Chars:    80 |Preview: A Single Class 2/25/2024 Software Engineering and Project Management- UNIT II 97
+Page  98 |Chars:   317 |Preview: Depicting Classes Person name : String birthdate : Date ssn : Id eat() sleep() work() play() • When drawing a class, you needn’t show attributes and operation in every diagram. Per
+Page  99 |Chars:   105 |Preview: Class Diagram : Hotel Management System 2/25/2024 Software Engineering and Project Management- UNIT II 99
+Page 100 |Chars:   464 |Preview: Relationships Software Engineering and Project Management- UNIT II In UML, object interconnections (logical or physical), are modeled as relationships. There are four kinds of rela
+Page 101 |Chars:   246 |Preview: Association Relationships • If two classes in a model need to communicate with each other, there must be link between them. • An association denotes that link. Instructor Student 2
+Page 102 |Chars:   811 |Preview: Association Relationships (Cont’d) • We can indicate the multiplicity of an association by adding multiplicity adornments to the line denoting the association. • Instance of one cl
+Page 103 |Chars:   329 |Preview: Association Relationships (Cont’d) • We can also indicate the behavior of an object in an association (i.e., the role of an object) using rolenames. Instructor Student 1..* 1..* le
+Page 104 |Chars:   190 |Preview: Association Relationships (Cont’d) • We can specify dual associations. Software Engineering and Project Management- UNIT II Team Student member of 1..* president of 1 1..* 1..* 2/2
+Page 105 |Chars:   381 |Preview: Association Relationships (Cont’d) • Navigability of the association. • Here, a Router object requests services from a DNS object by sending messages to (invoking the operations of
+Page 106 |Chars:   247 |Preview: Association Relationships (Cont’d) • Associations can also be objects themselves, called as association classes. Software Engineering and Project Management- UNIT II Warranty Produ
+Page 107 |Chars:   169 |Preview: Association Relationships (Cont’d) • A class can have a self association. Software Engineering and Project Management- UNIT II LinkedListNode next previous 2/25/2024 107
+Page 108 |Chars:    92 |Preview: Association examples 108 2/25/2024 Software Engineering and Project Management- UNIT II 108
+Page 109 |Chars:   207 |Preview: Association: Model to Implementation Class Student { Course enrolls[4]; } Class Course { Student has[]; } Student Course enrolls has * 4 2/25/2024 Software Engineering and Project 
+Page 110 |Chars:   397 |Preview: Association - Aggregation • A special form of association that models a whole-part relationship between an aggregate (the whole) and its parts. • Aggregation implies a relationship
+Page 111 |Chars:   256 |Preview: Aggregation and Composition 111 Aggregation   This is the “Has-a” or “Whole/part” relationship :Person :Car :Train 0..1 0..1 passengers driver 1 0..* aggregation * aggregation Memb
+Page 112 |Chars:   283 |Preview: Aggregation and Composition ●Composition  Strong form of aggregation that implies ownership:  if the whole is removed from the model, so is the part.  the whole is responsible for 
+Page 113 |Chars:   343 |Preview: Whole Composition Part Association - Composition ⦿A form of aggregation with strong ownership and coincident lifetimes ⚫The parts cannot survive the whole/aggregate Composition imp
+Page 114 |Chars:   211 |Preview: Aggregation and Composition 114 :Engine :Person :Car :Train 1 0..1 0..1 1..* passengers driver 1 1 0..1 0..* composition aggregation :Locomotive 2/25/2024 Software Engineering and 
+Page 115 |Chars:   473 |Preview: Association - Aggregation • A special form of association that is a collection of different things • Aggregation implies a relationship where the child can exist independently of t
+Page 116 |Chars:   540 |Preview: Association - Composition • Composition is a part of aggregation, and it portrays the whole-part relationship. • It depicts dependency between a composite (parent) and its parts (c
+Page 117 |Chars:    82 |Preview: Another Example 2/25/2024 Software Engineering and Project Management- UNIT II 117
+Page 118 |Chars:   251 |Preview: Example School Student 1..n n 1..n n member Course n n attends Instructor 1..n n 1..n n teaches Department 1 1..n 1 has 1..n 1..n 1..n 1..n 1..n assignedT o 0..1 0..1 0..1 -chairpe
+Page 119 |Chars:  1030 |Preview: 2/25/2024 Software Engineering and Project Management- UNIT II 119 Aggregation Composition It exhibits a kind of weak relationship. It exhibits a strong type of relationship. In an
+Page 120 |Chars:   340 |Preview: Generalization Relationships Software Engineering and Project Management- UNIT II Person • A generalization connects a subclass to its superclass. It denotes an • Inheritance of at
+Page 121 |Chars:   287 |Preview: Generalization Relationships (Cont’d) Software Engineering and Project Management- UNIT II Student TeachingAssistant Employee • UML permits a class to inherit from multiple supercl
+Page 122 |Chars:   290 |Preview: Generalization/Specialization • Generalization hierarchies may be created by generalizing from specific things or by • specializing from general things. More general element More s
+Page 123 |Chars:   239 |Preview: Inheritance  Class inheritance is implicit in a generalization relationship between classes.  Subclasses inherit attributes, associations, & operations from the superclass 2/25/202
+Page 124 |Chars:   711 |Preview: Example • Draw a UML Class Diagram representing the following elements from the problem domain for a hockey league. • A hockey league is made up of at least four hockey teams. • Ea
+Page 125 |Chars:    66 |Preview: 2/25/2024 Software Engineering and Project Management- UNIT II 125
+Page 126 |Chars:    90 |Preview: Example : Order Details 2/25/2024 Software Engineering and Project Management- UNIT II 126
+Page 127 |Chars:   543 |Preview: Benefits of class diagrams • To understand the general overview of plan of an application. • Illustrate data models for information systems, no matter how simple or complex. • Visu
+Page 128 |Chars:   371 |Preview: Object Diagram • Derived from class diagram • Shows a set of objects & their relationship • Represents a static view of the system • An object diagram is a diagram that shows a set
+Page 129 |Chars:   288 |Preview: Object Diagrams • An object is shown with a rectangle and the title is underlined • Format is – Instance name : Class name – Attributes and Values 129 entry object is an instance o
+Page 130 |Chars:   312 |Preview: Links • To show how objects work together, links shows that two objects can communicate with each other • There must be corresponding association between the classes in the class d
+Page 131 |Chars:   184 |Preview: Both diagrams are valid. Links and Constraints • Links must keep to the rules (constraints) given in class diagram. 2/25/2024 Software Engineering and Project Management- UNIT II 1
+Page 132 |Chars:    66 |Preview: 2/25/2024 Software Engineering and Project Management- UNIT II 132
+Page 133 |Chars:    66 |Preview: 2/25/2024 Software Engineering and Project Management- UNIT II 133
+Page 134 |Chars:   148 |Preview: Eg.1 • From the given class diagram draw an object diagram for John’s accounts 2/25/2024 Software Engineering and Project Management- UNIT II 134
+Page 135 |Chars:    66 |Preview: 2/25/2024 Software Engineering and Project Management- UNIT II 135
+Page 136 |Chars:   510 |Preview: Eg. 2 • Draw Object diagram for the Order management system . It has the following classes » Customer » Order » SpecialOrder » NormalOrder • Customer object (C) is associated with 
+Page 137 |Chars:    66 |Preview: 2/25/2024 Software Engineering and Project Management- UNIT II 137
+Page 138 |Chars:    66 |Preview: 2/25/2024 Software Engineering and Project Management- UNIT II 138
+Page 139 |Chars:    66 |Preview: 139 2/25/2024 Software Engineering and Project Management- UNIT II
+Page 140 |Chars:   113 |Preview: Class to Object Diagram Example - Order System 2/25/2024 Software Engineering and Project Management- UNIT II 140
+Page 141 |Chars:    82 |Preview: Example contd.. 2/25/2024 Software Engineering and Project Management- UNIT II 141
+Page 142 |Chars:    82 |Preview: Example contd.. 2/25/2024 Software Engineering and Project Management- UNIT II 142
+Page 143 |Chars:    84 |Preview: Example (contd..) 2/25/2024 Software Engineering and Project Management- UNIT II 143
+Page 144 |Chars:    82 |Preview: Example contd.. 2/25/2024 Software Engineering and Project Management- UNIT II 144
+Page 145 |Chars:   352 |Preview: Multiplicity exercise • How many – Employees can a Company have? – Employers can a Person have? – Owners can a BankAccount have? – Operators can a BankAccount have? – BankAccounts 
+Page 146 |Chars:   286 |Preview: Exercise • Model a computer file system. Here are the minimal facts you need: – The basic unit of storage is the file – Files live in directories – Directories can contain other di
+Page 147 |Chars:   335 |Preview: Exercise • Model a computer file system. Here are the minimal facts you need: – The basic unit of storage is the file – Files live in directories – Directories can contain other di
+Page 148 |Chars:   182 |Preview: Reflexive / Self associations Directory File 0..* 1 0..* 0..1 C Windows My Documents Corel Command autoexec config To John directories files parent subdirectory reflexive associati
+Page 149 |Chars:   632 |Preview: Composite Structure Diagrams • A composite structure diagram is a UML structural diagram that contains classes, interfaces, packages, and their relationships, and that provides a l
+Page 150 |Chars:   311 |Preview: Representation • Composite Structure Diagrams show the internal parts of a class. • Parts are named: partName:partType[multiplicity] • Aggregated classes are parts of a class • A p
+Page 151 |Chars:   419 |Preview: • A part is an element that represents a set of one or more instances which are owned by a containing classifier instance. • If a diagram instance owned a set of graphical elements
+Page 152 |Chars:    66 |Preview: 2/25/2024 Software Engineering and Project Management- UNIT II 152
+Page 153 |Chars:   543 |Preview: • A port is a element that represents an externally visible part of a containing classifier instance. • Ports define the interaction between a classifier and its environment. • A p
+Page 154 |Chars:   433 |Preview: Interfaces • All interface operations are public and abstract, and do not provide any default implementation. • All interface attributes must be constants. • An interface, when sta
+Page 155 |Chars:   334 |Preview: • An interface can be defined as either provided or required. • A provided interface is shown as a "ball on a stick" attached to the edge of a classifier element. • A required inte
+Page 156 |Chars:   105 |Preview: Example 2/25/2024 Software Engineering and Project Management- UNIT II 156 • Online Store – Class Diagram
+Page 157 |Chars:   132 |Preview: Example (contd..) • Composite structure diagram for store manager 2/25/2024 Software Engineering and Project Management- UNIT II 157
+Page 158 |Chars:    82 |Preview: Example contd.. 2/25/2024 Software Engineering and Project Management- UNIT II 158
+Page 159 |Chars:    74 |Preview: Example 2/25/2024 Software Engineering and Project Management- UNIT II 159
+Page 160 |Chars:   502 |Preview: Package diagrams • Package diagram is used to simplify complex class diagrams, you can group classes into packages. A package is a collection of logically related UML elements. • P
+Page 161 |Chars:   481 |Preview: Package diagrams • Purpose of Package Diagrams • Package diagrams are used to structure high level system elements. Packages are used for organizing large system which contains dia
+Page 162 |Chars:   398 |Preview: Analysis packages • A package is a general purpose mechanism for organising model elements into groups – Group semantically related elements – Define a “semantic boundary” in the m
+Page 163 |Chars:   514 |Preview: Package generalisation • The more specialised child packages inherit the public and protected elements in their parent package • Child packages may override elements in the parent 
+Page 164 |Chars:   345 |Preview: Finding Packages • These are often discovered as the model matures • We can use the natural groupings in the use case model to help identify packages: – One or more use cases that 
+Page 165 |Chars:   219 |Preview: Packages: guidelines • A cohesive group of closely related classes • Minimise dependencies between packages • Minimise nesting of packages • Refine package structure as analysis pr
+Page 166 |Chars:   146 |Preview: • Packages can be represented by the notations with some examples shown below: 2/25/2024 Software Engineering and Project Management- UNIT II 166
+Page 167 |Chars:   177 |Preview: Package Diagram • It shows the decomposition of the model itself into organization units & their dependencies 2/25/2024 Software Engineering and Project Management- UNIT II 167
+Page 168 |Chars:   304 |Preview: • Two stereotypes are used in dependency: <<import>> & <<access>>. • <<import>> - one package imports the functionality of other package • <<access>> - one package requires help fr
+Page 169 |Chars:   112 |Preview: Package Diagram Example - Layered Application 2/25/2024 Software Engineering and Project Management- UNIT II 169
+Page 170 |Chars:   108 |Preview: Package Diagram Example - Order Subsystem 2/25/2024 Software Engineering and Project Management- UNIT II 170
+Page 171 |Chars:   936 |Preview: • Order Processing System - The Problem Description We are going to design package diagram for "Track Order" scenario for an online shopping store. Track Order module is responsibl
+Page 172 |Chars:   466 |Preview: Identify the dependencies in the System • Track order should get order details from "Order Details" and "Order Details" has to know the tracking info given by the customer. Two mod
+Page 173 |Chars:   242 |Preview: • Finally, Track Order dependency to UI Framework is also mapped which completes our Package Diagram for Order Processing subsystem. Package Diagram Example - Order Subsystem 2/25/
+Page 174 |Chars:   510 |Preview: Package Example They provide a clear view of the hierarchical structure of the various UML elements within a given system. These diagrams can simplify complex class diagrams into w
+Page 175 |Chars:    88 |Preview: More Package Examples 2/25/2024 Software Engineering and Project Management- UNIT II 175
+Page 176 |Chars:   142 |Preview: Software Modeling & Design - UNIT II 176 Package Diagram Example - Accounts 2/25/2024 Software Engineering and Project Management- UNIT II 176
+Page 177 |Chars:   462 |Preview: Component Diagram • Component diagrams are used to visualize the organization and relationships among components in a system. • Component diagrams can also be described as a static
+Page 178 |Chars:   278 |Preview: Basic Component Diagram Symbols and Notations Component • A component is a logical unit block of the system, a slightly higher abstraction than classes. Software Engineering and Pr
+Page 179 |Chars:   469 |Preview: Basic Component Diagram Symbols and Notations Interface • An interface (small circle or semi-circle on a stick) describes a group of operations used (required) or created (provided
+Page 180 |Chars:   166 |Preview: Component diagram notation • Dependencies Software Engineering and Project Management- UNIT II 180 2/25/2024 Software Engineering and Project Management- UNIT II 180
+Page 181 |Chars:   343 |Preview: Component Views 181 • UML uses two views of components, a black-box view and a white-box view. • The black-box view shows a component from an outside perspective; • The white-box v
+Page 182 |Chars:   283 |Preview: Black-Box View • The black-box view of a component shows the interfaces the component provides or the interfaces it requires • It does not specify anything about the internal imple
+Page 183 |Chars:    70 |Preview: 183 2/25/2024 Software Engineering and Project Management- UNIT II 183
+Page 184 |Chars:    70 |Preview: 184 2/25/2024 Software Engineering and Project Management- UNIT II 184
+Page 185 |Chars:    70 |Preview: 185 2/25/2024 Software Engineering and Project Management- UNIT II 185
+Page 186 |Chars:   359 |Preview: White Box view • In order to provide details about the implementation of a component, UML defines a white box view. • The white-box view shows exactly how a component realizes the 
+Page 187 |Chars:    70 |Preview: 187 2/25/2024 Software Engineering and Project Management- UNIT II 187
+Page 188 |Chars:    91 |Preview: Detailed Realization 188 2/25/2024 Software Engineering and Project Management- UNIT II 188
+Page 189 |Chars:    70 |Preview: 189 2/25/2024 Software Engineering and Project Management- UNIT II 189
+Page 190 |Chars:   195 |Preview: Component diagram example • Online shopping system – component diagram Software Engineering and Project Management- UNIT II 190 2/25/2024 Software Engineering and Project Managemen
+Page 191 |Chars:   166 |Preview: Component diagram – Ticket selling system Software Engineering and Project Management- UNIT II 191 2/25/2024 Software Engineering and Project Management- UNIT II 191
+Page 192 |Chars:   150 |Preview: Component diagram example Software Engineering and Project Management- UNIT II 192 2/25/2024 Software Engineering and Project Management- UNIT II 192
+Page 193 |Chars:   379 |Preview: Deployment Diagram Software Engineering and Project Management- UNIT II • Deployment diagrams are used for modeling configuration of run-time processing nodes and the components th
+Page 194 |Chars:   396 |Preview: Deployment Diagram • Deployment diagrams show the physical relationship between hardware and software in a system • Computers (clients, servers) • Devices (sensors, peripherals) • 
+Page 195 |Chars:   495 |Preview: Deployment diagram • Purpose of Deployment Diagrams ✔ They show the structure of the run-time system ✔ They capture the hardware that will be used to implement the system and the l
+Page 196 |Chars:   390 |Preview: Deployment diagram • Deployment diagram contains nodes and connections • A node usually represent a piece of hardware in the system • A connection depicts the communication path us
+Page 197 |Chars:   400 |Preview: Deployment diagram • The deployment model describes how functionality is distributed across physical nodes • It models the system’s physical architecture as artifacts deployed on n
+Page 198 |Chars:   270 |Preview: Nodes • A node represents a type of computational resource – e.g. a WindowsPC • Standard stereotypes are «device» and «execution environment» «device» WindowsPC «execution environm
+Page 199 |Chars:   332 |Preview: Nodes – instance form • A node instance represents an actual physical resource – e.g. JimsPC:WindowsPC - node instances have underlined names «device» JimsPC:WindowsPC «execution e
+Page 200 |Chars:   376 |Preview: Artifacts • An artifact represents a type of concrete, real-world thing such as a file – Can be deployed on nodes • Artifact instances represent particular copies of artifacts – Ca
+Page 201 |Chars:   243 |Preview: Deployment • Artifacts are deployed on nodes, artifact instances are deployed on node instances «device» client:WindowsPC «device» server:WindowsPC «execution environment» :J2EE Se
+Page 202 |Chars:   161 |Preview: Deployment diagram of embeded system Software Engineering and Project Management- UNIT II 202 2/25/2024 Software Engineering and Project Management- UNIT II 202
+Page 203 |Chars:   155 |Preview: Deployment diagram with TCP/IP Software Engineering and Project Management- UNIT II 203 2/25/2024 Software Engineering and Project Management- UNIT II 203
+Page 204 |Chars:   133 |Preview: Example: Software Engineering and Project Management- UNIT II 204 2/25/2024 Software Engineering and Project Management- UNIT II 204
+Page 205 |Chars:   258 |Preview: Deployment Diagram Software Engineering and Project Management- UNIT II reservations <<database>> meetingsDB :Scheduler server:HostMachine clientMachine:PC :Planner Deployment diag
+Page 206 |Chars:    93 |Preview: Software Engineering and Project Management- UNIT II Sample Communication Links 2/25/2024 206
+Page 207 |Chars:   270 |Preview: Dynamic Modeling ( Behavioral Diagrams) ●Use case diagram ●Activity diagram ●State machine diagram ● Interaction : Interaction overview diagram, sequence diagram, Timing diagram ●C
+Page 208 |Chars:   549 |Preview: Use Case Diagram • A use case diagram describes how a system interacts with outside actors • It is a graphical representation of the interaction among the elements and system • Eac
+Page 209 |Chars:   412 |Preview: Use Case Diagram 2/25/2024 Software Engineering and Project Management- UNIT II 209 • Use case refers to • A system’s behavior (functionality) • A set of activities that produce so
+Page 210 |Chars:   512 |Preview: Use Case Diagram 2/25/2024 Software Engineering and Project Management- UNIT II 210 S.No Name Description Notation 1 System Boundary The scope of a system can be represented by a s
+Page 211 |Chars:   451 |Preview: Use Case Diagram 2/25/2024 Software Engineering and Project Management- UNIT II 211 S.No Name Description Notation 6 Include It specifies how the behavior of the inclusion use case
+Page 212 |Chars:   152 |Preview: Proceeds as follows ▪Find a candidate system boundary ▪Find the actors ▪Find the use cases ▪Iterate until use cases, actors & system boundary are stable
+Page 213 |Chars:     6 |Preview: Actors
+Page 214 |Chars:    73 |Preview: Actors 2/25/2024 Software Engineering and Project Management- UNIT II 214
+Page 215 |Chars:   180 |Preview: Use cases • Identifying use cases - List all the actors - Consider how each actor is going to use the system & obtain list of use cases - Each use case must be given a verb phrase
+Page 216 |Chars:    16 |Preview: Use case diagram
+Page 217 |Chars:   114 |Preview: Actor generalization • Actor generalization factors out behavior common to two or more actors into a parent actor
+Page 218 |Chars:    20 |Preview: Actor generalization
+Page 219 |Chars:   102 |Preview: Use case generalization • Factors out behavior common to one or more use cases into a parent use case
+Page 220 |Chars:    91 |Preview: Use Case Diagram for ATM 2/25/2024 Software Engineering and Project Management- UNIT II 220
+Page 221 |Chars:   548 |Preview: Example 2: Use case Diagram for a dictionary system • In this system, the user first login to the system with user name and password. user name of every user is unique. • The user 
+Page 222 |Chars:    66 |Preview: 2/25/2024 Software Engineering and Project Management- UNIT II 222
+Page 223 |Chars:   369 |Preview: Use of Extend stereotype between Use Cases 2/25/2024 Software Engineering and Project Management- UNIT II 223 • Extend – • linking an optional use case to a standard use case. • Ex
+Page 224 |Chars:   187 |Preview: <<extend>> • Provides a way to insert new behavior into an existing use case • Base use case is complete without its extension use cases. Extension use cases are generally not comp
+Page 225 |Chars:   153 |Preview: • University Registration System 2/25/2024 Software Engineering and Project Management- UNIT II 225 Careful: Arrows between Use Cases are NOT data flows!
+Page 226 |Chars:   396 |Preview: Use of Include stereotype between Use Cases 2/25/2024 Software Engineering and Project Management- UNIT II 226 • Include stereotype – a standard case linked to an mandatory use cas
+Page 227 |Chars:   217 |Preview: <<include>> • <<include>> factors out steps common to several use cases into a separate use case • Base use case is not complete without all of its inclusion use cases. Inclusion u
+Page 228 |Chars:   180 |Preview: Include Relation between Use Cases • Credit Card Processing 2/25/2024 Software Engineering and Project Management- UNIT II 228 Careful: Arrows between Use Cases are NOT data flows!
+Page 229 |Chars:    97 |Preview: Extend and Include(Stereotype) 2/25/2024 Software Engineering and Project Management- UNIT II 229
+Page 230 |Chars:   149 |Preview: Use Case Example • Login: – Captcha – Password – Answer Secret Questions • Log out 2/25/2024 Software Engineering and Project Management- UNIT II 230
+Page 231 |Chars:    82 |Preview: Example : Login 2/25/2024 Software Engineering and Project Management- UNIT II 231
+Page 232 |Chars:   445 |Preview: Use Case Diagram for Website Use Case • Consider the User and Webmaster • User can login, browse and search document. – Download is also possible – User can view event only if he i
+Page 233 |Chars:   106 |Preview: Use Case Diagram for Website Use Case 2/25/2024 Software Engineering and Project Management- UNIT II 233
+Page 234 |Chars:   276 |Preview: Hints & tips for writing use cases • Keep use cases short and simple – Verb or verb phrases – Short & descriptive – Words of the use case name run together & each starts with an up
+Page 235 |Chars:   177 |Preview: Avoid functional decomposition • Common error is to create set of high level use cases & then break these down into a set of lower level use cases detailed enough to implement
+Page 236 |Chars:   270 |Preview: Activity diagrams • Activity diagrams are "OO flowcharts"! • They allow us to model a process as a collection of nodes and edges between those nodes • Use activity diagrams to mode
+Page 237 |Chars:   426 |Preview: Activity Diagram • It shows the structure of a process • Supplements the use-case by providing a diagrammatic representation of procedural flow • Shows flow of control from activit
+Page 238 |Chars:   542 |Preview: Activity Diagram 2/25/2024 Software Engineering and Project Management- UNIT II 238 • Describes how activities are coordinated. • Is particularly useful when you know that an opera
+Page 239 |Chars:   511 |Preview: Activity Diagrams • An activity diagram visually presents a series of actions or flow of control in a system similar to a flowchart or a data flow diagram. • Activity diagrams are 
+Page 240 |Chars:    94 |Preview: Activity diagram Notations 2/25/2024 Software Engineering and Project Management- UNIT II 240
+Page 241 |Chars:   564 |Preview: Activity diagram syntax • Activities usually start in an initial node and terminate in a final node • Activities can have preconditions and postconditions • When an action node fin
+Page 242 |Chars:   696 |Preview: Activity diagram semantics • Tokens traverse from a source node to a target node via an edge – The source node, edge and target node may all have constraints controlling the moveme
+Page 243 |Chars:   331 |Preview: • When the action or activity of a state completes, flow of control passes immediately to the next action or activity state • A flow of control has to start and end someplace – ini
+Page 244 |Chars:   230 |Preview: • A branch specifies alternate paths taken based on some Boolean expression • A branch may have one incoming transition and two or more outgoing ones Branching 2/25/2024 Software E
+Page 245 |Chars:   260 |Preview: Activity Diagram (Contd..) • Forking & Joining: • Fork: Splitting of single flow of control into 2 or concurrent flow of control • Join: Synchronization of 2 or more concurrent flo
+Page 246 |Chars:   247 |Preview: Activity Diagram Example - To show concurrent activity, activity diagrams allow branches and joins. - You can also reference or include other activity diagrams Fork/Branch Join 2/2
+Page 247 |Chars:    66 |Preview: 2/25/2024 Software Engineering and Project Management- UNIT II 247
+Page 248 |Chars:    79 |Preview: Example 1 : 2/25/2024 Software Engineering and Project Management- UNIT II 248
+Page 249 |Chars:    13 |Preview: 2/25/2024 249
+Page 250 |Chars:   478 |Preview: Activity partitions Marketing Development Create course business case Develop course Scheduling Book trainers Book rooms Market course Course production activity partition Schedule
+Page 251 |Chars:   574 |Preview: • A swimlane specifies a locus of activities • To partition the activity states on an activity diagram into groups – each group representing the business organization responsible f
+Page 252 |Chars:    40 |Preview: Activity Diagram: Example 2/25/2024 252
+Page 253 |Chars:    40 |Preview: Activity Diagram: Example 2/25/2024 253
+Page 254 |Chars:    31 |Preview: Swimlane Diagrams 2/25/2024 254
+Page 255 |Chars:   121 |Preview: Example 2 : Food Ordering Processing with Swimlanes 2/25/2024 Software Engineering and Project Management- UNIT II 255
+Page 256 |Chars:   103 |Preview: Example 3: ABC Bank with swimlanes 2/25/2024 Software Engineering and Project Management- UNIT II 256
+Page 257 |Chars:   742 |Preview: State Machine Diagrams • Classes can have interesting dynamic behavior - state machines can be used to model this behaviour • A state machine models dynamic behavior of a reactive 
+Page 258 |Chars:   130 |Preview: State machine diagrams state = off Off On Off On turnOff ■We begin with the light bulb in the state off burnOut light bulb turnOn
+Page 259 |Chars:   169 |Preview: Light bulb turnOn State = off Off On Off On turnOn turnOff • We throw the switch to On and the event turnOn is sent to the lightbulb burnOut Event = turnOn light bulb
+Page 260 |Chars:    97 |Preview: Light bulb On State = on Off On Off On turnOn turnOff ■The light bulb turns on burnOut light bulb
+Page 261 |Chars:   168 |Preview: ■We turn the switch to Off. The event turnOff is sent to the light bulb Light bulb turnOff State = on Off On Off On turnOn turnOff burnOut Event = turnOff light bulb
+Page 262 |Chars:   100 |Preview: Light bulb Off state = off Off On Off On turnOff burnOut turnOn ■The light bulb turns off light bulb
+Page 263 |Chars:   307 |Preview: Basic state machine syntax • Every state machine should have a start state which indicates the first state of the sequence • Unless the states cycle endlessly, state machines shoul
+Page 264 |Chars:   386 |Preview: States • "A condition or situation during the life of an object during which it satisfies some condition, performs some activity or waits for some event“ • The state of an object a
+Page 265 |Chars:   271 |Preview: • Incase of bulb every change to any one of the atoms or subatomic particles constitutes a new state • This gives us infinite number of states which are virtually identical • Ident
+Page 266 |Chars:   530 |Preview: State syntax • Actions are instantaneous and uninterruptible – Entry actions occur immediately on entry to the state – Exit actions occur immediately on leaving the state • Interna
+Page 267 |Chars:   230 |Preview: Transitions A B event1, event2 [guard condition] / act1, act2 behavioral state machine events Boolean guard condition actions On (event1 OR event2) if (guardCondition is true) then
+Page 268 |Chars:   338 |Preview: Connecting - the junction pseudo state • The junction pseudo state can: – connect transitions together (merge) – branch transitions • Each outgoing transition must have a mutually 
+Page 269 |Chars:   385 |Preview: Branching – the choice pseudo state • The choice pseudo state directs its single incoming transition to one of its outgoing transitions • Each outgoing transition must have a mutua
+Page 270 |Chars:   185 |Preview: Events • Events trigger transitions in state machines • Events can be shown externally, on transitions, or internally within states (internal transitions) Off On turnOff turnOn eve
+Page 271 |Chars:   352 |Preview: Composite states • Have one or more regions that each contain a nested submachine – Simple composite state • exactly one region – Orthogonal composite state • two or more regions •
+Page 272 |Chars:   367 |Preview: Simple composite state • Contains a single region do/ dialISP DialingISP entry/ offHook WaitingForDialto ne Dialing WaitingForCarri er after(20 seconds)/ noDialtone after(20 second
+Page 273 |Chars:   648 |Preview: Orthogonal composite states • Has two or more regions • When we enter the superstate, both submachines start executing concurrently - this is an implicit fork do/ initializeSecurit
+Page 274 |Chars:   701 |Preview: Terms and Concepts • Advanced States and Transitions – Simple state - A state that contains no substates. – Composite state - A state that contains substates. – Substate - A state 
+Page 275 |Chars:   527 |Preview: Terms and Concepts • Advanced States and Transitions – Concurrent Substates - Used when two or more state diagrams are executing concurrently within a single object. • Allows an ob
+Page 276 |Chars:    95 |Preview: Concurrent Substates Example 2/25/2024 Software Engineering and Project Management- UNIT II 276
+Page 277 |Chars:   481 |Preview: Terms and Concepts • Advanced States and Transitions – Deferred Event - An event whose occurrence is responded to at a later time. • Syntax (to be placed inside the state symbol): 
+Page 278 |Chars:   122 |Preview: State Machine Diagrams 2/25/2024 Software Engineering and Project Management- UNIT II 278 Example of Transition of states
+Page 279 |Chars:   103 |Preview: ATM Machine Composite State Diagram 2/25/2024 Software Engineering and Project Management- UNIT II 279
+Page 280 |Chars:   100 |Preview: Phone Call Advance State Diagram 2/25/2024 Software Engineering and Project Management- UNIT II 280
+Page 281 |Chars:   343 |Preview: Terms and Concepts • Advanced States and Transitions – History States - Allows an object to remember which substate was last active when the containing state was exited. • Upon re-
+Page 282 |Chars:    97 |Preview: State Diagram for a Phone Line 2/25/2024 Software Engineering and Project Management- UNIT II 282
+Page 283 |Chars:   154 |Preview: Interactions • Interaction diagrams capture an interaction as: – Lifelines – participants in the interaction – Messages – communications between lifelines
+Page 284 |Chars:   725 |Preview: Lifelines • A lifeline represents a single participant in an interaction – Shows how a classifier instance may participate in the interaction • Lifelines have: – name - the name us
+Page 285 |Chars:   552 |Preview: Messages • A message represents a communication between two lifelines synchronous message asynchronous send message return sender receiver/ target creation :A type of message destr
+Page 286 |Chars:   613 |Preview: Interaction diagrams • Sequence diagrams – Emphasize time-ordered sequence of message sends – Show interactions arranged in a time sequence – Are the richest and most expressive in
+Page 287 |Chars:     8 |Preview: Use case
+Page 288 |Chars:    13 |Preview: Class diagram
+Page 289 |Chars:   518 |Preview: Sequence diagram syntax • All interaction diagrams may be prefixed sd to indicate their type • Activations indicate when a lifeline has focus of control - they are often omitted fr
+Page 290 |Chars:     8 |Preview: Use case
+Page 291 |Chars:   400 |Preview: Deletion and self-delegation • Self delegation is when a lifeline sends a message to itself – Generates a nested activation • Object deletion is shown by terminating the lifeline's
+Page 292 |Chars:   252 |Preview: State invariants and constraints :Customer :Order :DeliveryManage r :OrderManag er «create» unpaid paid delivered raiseOrder() acceptPayment() acceptPayment() deliver() deliver() s
+Page 293 |Chars:   532 |Preview: Combined fragments • Sequence diagrams may be divided into areas called combined fragments • Combined fragments have one or more operands • Operators determine how the operands are
+Page 294 |Chars:   519 |Preview: Common operators operator long name semantics opt Option There is a single operand that executes if the condition is true (like if … then) alt Alternatives The operand whose condit
+Page 295 |Chars:   531 |Preview: branching with opt and alt • opt semantics: – single operand that executes if the condition is true • alt semantics: – two or more operands each protected by its own condition – an
+Page 296 |Chars:   718 |Preview: Iteration with loop and break • loop semantics: – Loop min times, then loop (max – min) times while condition is true • loop syntax – A loop without min, max or condition is an inf
+Page 297 |Chars:   494 |Preview: Importance of Sequence Diagrams • Depict object interactions in a given scenario identified for a given Use Case • Specify the messages passed between objects using horizontal arro
+Page 298 |Chars:   424 |Preview: Communication diagrams 2/25/2024 Software Engineering and Project Management- UNIT II 298 •UML Communication diagrams used to model the dynamic behaviour •When compare to Sequence 
+Page 299 |Chars:   190 |Preview: Communication Diagrams • Communication diagrams contain – Classes – Associations – Message exchanges within a collaboration 2/25/2024 Software Engineering and Project Management- U
+Page 300 |Chars:   357 |Preview: Communication Diagrams • Link : A link is a connection path between two objects, it indicates some form of navigation and visibility between the objects. A link is an instance of a
+Page 301 |Chars:   303 |Preview: Communication Diagrams • Messages : each message between objects is represented with a message expression and a small arrow indicating the direction of the message. A sequence numb
+Page 302 |Chars:   341 |Preview: Communication diagram syntax • Communication diagrams emphasize the structural aspects of an interaction - how lifelines connect together 2: addCourse( "MDA" ) :Registrar :Registra
+Page 303 |Chars:   367 |Preview: Iteration • Iteration is shown by using the iteration specifier (*), and an optional iteration clause – There is no prescribed UML syntax for iteration clauses – Use code or pseudo
+Page 304 |Chars:   642 |Preview: Branching • Branching is modelled by prefixing the sequence number with a guard condition – There is no prescribed UML syntax for guard conditions! – In the example above, we use t
+Page 305 |Chars:   110 |Preview: Process Order Control Communication diagram 2/25/2024 Software Engineering and Project Management- UNIT II 305
+Page 306 |Chars:   110 |Preview: Sequence Diagrams vs Communication Diagrams 2/25/2024 Software Engineering and Project Management- UNIT II 306
+Page 307 |Chars:   110 |Preview: Sequence Diagrams vs Communication Diagrams 2/25/2024 Software Engineering and Project Management- UNIT II 307
+Page 308 |Chars:   454 |Preview: Sequence Diagrams vs Communication Diagrams • Sequence diagrams : – Strength: clearly show sequence or time ordering of events, simple notation – Weakness: forced to extend to the 
+Page 309 |Chars:   102 |Preview: Communication vs. Sequence Diagrams 2/25/2024 Software Engineering and Project Management- UNIT II 309
+Page 310 |Chars:   419 |Preview: Interaction diagram • Interaction diagrams – Sequence Diagram: • Dynamic behavior of a set of objects arranged in time sequence, new objects added to the right • Good for real-time
+Page 311 |Chars:   434 |Preview: UML Sequence Diagrams 2/25/2024 Software Engineering and Project Management- UNIT II 311 • Used during requirements analysis – To refine use case descriptions – to find additional 
+Page 312 |Chars:   446 |Preview: UML Sequence Diagrams • Sequence diagrams model the dynamic aspects of a software system • The emphasis is on the “sequence” of messages rather than relationship between objects • 
+Page 313 |Chars:   274 |Preview: • Func: Issue a book(use case diagram) • Student get the book • Librarian gives the book – Student Logs in – Request for book – Librarian will check availabilty – Librarian will ch
+Page 314 |Chars:    47 |Preview: Sequence Diagram of sale scenario 2/25/2024 314
+Page 315 |Chars:   352 |Preview: UML Sequence Diagrams 2/25/2024 Software Engineering and Project Management- UNIT II 315 S.No Name Description Notation 1 Class Roles or Participants Class roles describe the way a
+Page 316 |Chars:   292 |Preview: 2/25/2024 Software Engineering and Project Management- UNIT II 316 S.No Name Description Notation 3 Messages Messages are arrows that represent communication between objects. 4 Lif
+Page 317 |Chars:   603 |Preview: UML Sequence Diagrams- Types of Messages in Sequence Diagrams 2/25/2024 Software Engineering and Project Management- UNIT II 317 S.No Name Description Notation 1 Synchronous Messag
+Page 318 |Chars:    93 |Preview: Drawing a Sequence Diagram 2/25/2024 Software Engineering and Project Management- UNIT II 318
+Page 319 |Chars:    66 |Preview: 2/25/2024 Software Engineering and Project Management- UNIT II 319
+Page 320 |Chars:    66 |Preview: 2/25/2024 Software Engineering and Project Management- UNIT II 320
+Page 321 |Chars:   368 |Preview: Sequence Diagram Lifelines • A lifeline represents an individual participant in a sequence diagram. A lifeline will usually have a rectangle containing its object name. • If its na
+Page 322 |Chars:   523 |Preview: Sequence Diagram Messages • Messages are displayed as arrows. Messages can be complete, lost or found; synchronous or asynchronous; call or signal. • In the following diagram, the 
+Page 323 |Chars:   552 |Preview: Sequence Diagram Execution Occurrence • A thin rectangle running down the lifeline denotes the execution occurrence or activation of a focus of control. • In the previous diagram, 
+Page 324 |Chars:   339 |Preview: Sequence Diagram Self Message • A self message can represent a recursive call of an operation, or one method calling another method belonging to the same object. • It is shown as c
+Page 325 |Chars:   452 |Preview: Sequence Diagram Lost and Found Messages • Lost messages are those that are either sent but do not arrive at the intended recipient, or which go to a recipient not shown on the cur
+Page 326 |Chars:   212 |Preview: Diff types of messages in Sequence diagram • Synchronous msg • Asynchronous msg • Lost • Found msg • Return • Self msg • Create msg • Destroy msg 2/25/2024 326 Software Engineering
+Page 327 |Chars:   149 |Preview: Creation of instances : Typically we use the language independent create message: 2/25/2024 327 Software Engineering and Project Management- UNIT II
+Page 328 |Chars:   158 |Preview: Object Lifelines and Object Destruction We may show the explicit destruction of an object 2/25/2024 328 Software Engineering and Project Management- UNIT II
+Page 329 |Chars:   389 |Preview: Sequence Diagram Combined Fragments • A combined fragment is one or more processing sequence enclosed in a frame and executed under specific named circumstances. • They are also kn
+Page 330 |Chars:    91 |Preview: Sequence Diagram Example 2/25/2024 330 Software Engineering and Project Management- UNIT II
+Page 331 |Chars:   476 |Preview: Typical frame operators are: Interaction Operator Semantics alt Alternative fragment for mutual exclusion conditional logic expressed in the guards. loop Loop fragment while guard 
+Page 332 |Chars:   621 |Preview: Interaction operators • Alternative (denoted “alt”) models if…then…else constructs. • Option (denoted “opt”) models switch constructs. • Break models an alternative sequence of eve
+Page 333 |Chars:   474 |Preview: 2/25/2024 333 • An interaction constraint is a constraint used in interactions - a Boolean expression that guards an operand in a combined fragment. • An interaction constraint is 
+Page 334 |Chars:   543 |Preview: Alternative 2/25/2024 334 • The interaction operator alt means that the combined fragment represents a choice or alternatives of behavior. • At most one of the operands will be cho
+Page 335 |Chars:   121 |Preview: Call accept() if balance > 0, call reject() otherwise. 2/25/2024 335 Software Engineering and Project Management- UNIT II
+Page 336 |Chars:   392 |Preview: Option • The interaction operator opt means that the combined fragment represents a choice of behaviour where either the (sole) operand happens or nothing happens. • An option is s
+Page 337 |Chars:   105 |Preview: Post comments if there were no errors. 2/25/2024 337 Software Engineering and Project Management- UNIT II
+Page 338 |Chars:   680 |Preview: Loop • The interaction operator loop means that the combined fragment represents a loop. • The loop operand will be repeated a number of times. The loop construct represents a recu
+Page 339 |Chars:    66 |Preview: 2/25/2024 339 Software Engineering and Project Management- UNIT II
+Page 340 |Chars:    91 |Preview: Sequence Diagram Example 2/25/2024 340 Software Engineering and Project Management- UNIT II
+Page 341 |Chars:   446 |Preview: Break 2/25/2024 341 • The interaction operator break represents a breaking or exceptional scenario that is performed instead of the remainder of the enclosing interaction fragment.
+Page 342 |Chars:   320 |Preview: Parallel 2/25/2024 342 • The interaction operator par defines potentially parallel execution of behaviour of the operands of the combined fragment. • Different operands can be inte
+Page 343 |Chars:   463 |Preview: Strict sequencing 2/25/2024 343 • The interaction operator strict requires a strict sequencing (order) of the operands on the first level within the combined fragment. • Operands o
+Page 344 |Chars:   676 |Preview: Weak Sequencing 2/25/2024 344 • The interaction operator seq means that the combined fragment represents a weak sequencing between the behaviors of the operands. • The ordering of 
+Page 345 |Chars:   270 |Preview: Critical 2/25/2024 345 The interaction operator critical defines that the combined fragment represents a critical region. Add() or remove() could be called in parallel, but each on
+Page 346 |Chars:   521 |Preview: Ignore • There are some message types that are not shown within this combined fragment. • These message types can be considered insignificant and are implicitly ignored if they app
+Page 347 |Chars:   501 |Preview: Consider • The interaction operator consider defines which messages should be considered within this combined fragment, meaning that any other message will be ignored. • The list o
+Page 348 |Chars:   257 |Preview: Sequence Diagram Part Decomposition • An object can have more than one lifeline coming from it. This allows for inter- and intra-object messages to be displayed on the same diagram
+Page 349 |Chars:    93 |Preview: Rules of Sequence Diagrams 2/25/2024 349 Software Engineering and Project Management- UNIT II
+Page 350 |Chars:    66 |Preview: 2/25/2024 350 Software Engineering and Project Management- UNIT II
+Page 351 |Chars:    66 |Preview: 2/25/2024 351 Software Engineering and Project Management- UNIT II
+Page 352 |Chars:    98 |Preview: Specifying Timing Requirements 2/25/2024 352 Software Engineering and Project Management- UNIT II
+Page 353 |Chars:   134 |Preview: Vending Machine System Sequence Diagram for Deposit Money Use Case 2/25/2024 353 Software Engineering and Project Management- UNIT II
+Page 354 |Chars:   118 |Preview: System Sequence Diagram for Make Selection Use Case 2/25/2024 354 Software Engineering and Project Management- UNIT II
+Page 355 |Chars:    80 |Preview: Order System 2/25/2024 Software Engineering and Project Management- UNIT II 355
+Page 356 |Chars:   531 |Preview: Timing diagrams • UML 2 Timing diagrams shows the behavior of the objects in a given period of time. Timing diagram is a special form of a sequence diagram. • The differences betwe
+Page 357 |Chars:   218 |Preview: Timing diagram • The timing diagram focusing attention on time of occurrence of events causing changes in the modeled conditions of the Lifelines. 2/25/2024 Software Engineering an
+Page 358 |Chars:    84 |Preview: Timing diagrams 2/25/20 24 Software Engineering and Project Management- UNIT II 35 8
+Page 359 |Chars:   555 |Preview: Interaction overview diagram • Interaction overview diagrams focuses on the overview of the flow of control of the interactions. • It is a variant of the Activity Diagram where the
+Page 360 |Chars:   483 |Preview: Interaction overview diagram • The Interaction EstablishAccess occurs first with argument"Illegal PIN" followed by an interaction with the message CardOut which is shown in an inli
+Page 361 |Chars:   114 |Preview: Interaction overview diagram- Scheduling System 2/25/2024 Software Engineering and Project Management- UNIT II 361
+Page 362 |Chars:    95 |Preview: Interaction overview diagram 2/25/2024 Software Engineering and Project Management- UNIT II 362
+Page 363 |Chars:    95 |Preview: Interaction overview diagram 2/25/2024 Software Engineering and Project Management- UNIT II 363
+Page 364 |Chars:   471 |Preview: Summary • In this section we have looked at use case realization using interaction diagrams • There are four types of interaction diagram: – Sequence diagrams – emphasize time-orde
+Page 365 |Chars:   417 |Preview: References • UML 2.0 in nutshell, by Dan Pilone & Neil Pitman,O’Reilly . • Roger S Pressman, Software Engineering: A Practitioner’s Approach, Mcgraw-Hill, ISBN: 0073375977, Seventh
