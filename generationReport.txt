@@ -1,0 +1,16 @@
+
+Question: What is the difference between cohesion and coupling?
+
+Answer:
+ Based on the provided document, here is the difference between cohesion and coupling:
+
+* **Cohesion** is a measure of the functional strength of a module. A cohesive module performs a single task or function (Page 14).
+* **Coupling** between two modules is a measure of the degree of interdependence or interaction between the two modules (Page 14). 
+
+Additionally, ideal good software design promotes tight cohesion and low coupling (Page 16).
+
+Answer:
+ Based on the provided document, the difference between cohesion and coupling is:
+
+* **Cohesion** is a measure of the functional strength of a module, where a cohesive module performs a single task or function (Page 14). 
+* **Coupling** is a measure of the degree of interdependence or interaction between two modules (Page 14).
